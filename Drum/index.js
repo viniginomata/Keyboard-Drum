@@ -1,15 +1,21 @@
-//Putting a listener in all the buttons with this loop.
-for(let i = 0 ; i < document.querySelectorAll(".drum").length; i++)
-document.querySelectorAll("button")[i].addEventListener("keydown",function(){
+var numberOfDrumButtons = document.querySelectorAll(".drum").length;
+for(let i = 0 ; i < numberOfDrumButtons; i++)  
+
+document.querySelectorAll(".drum")[i].addEventListener("click",function(){
     let buttonInnerHTML = this.innerHTML /* <<< This variable became the text content by using innerHTML. If we write console.log(buttonInnerHTML) the pc give to us only the text*/
 
     playSound(buttonInnerHTML);
 
-    document.addEventListener("keydown",function(event){
-        playSound(event.key)
+    buttonAnimation(buttonInnerHTML)
+     });
+    
+document.addEventListener("keypress", function(event){
+    playSound(event.key);
+
+    buttonAnimation(event.key);
+});
 
 
-    });
 // Every button has a event listener. Now I have to identify which key was pressed
 
     function playSound(key){
@@ -43,10 +49,19 @@ document.querySelectorAll("button")[i].addEventListener("keydown",function(){
                 let audio6 = new Audio("sounds/snare.mp3");
                 audio6.play();
             break;
+
             default:console.log(buttonInnerHTML);
         }
     }
 
 
-})
 
+ function buttonAnimation(currentKey) {
+    let activeButton = document.querySelector("."+ currentKey);
+
+    activeButton.classList.add("pressed")
+
+    setTimeout(function(){
+        activeButton.classList.remove("pressed");
+    },100);
+}
